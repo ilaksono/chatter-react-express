@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+$font-stack: 'Poppins', sans-serif;
+$white: #E9E9E9;
+$purple: #1E0253;
+$salmon: #FF717C;
+$light-purple: #7338D2;
+$text: #363f47;
+$other-purple: #C637A0;
+$gray-line: rgb(219, 218, 218);
+$lightp: rgb(174, 149, 184);
+$lightb: rgb(161, 201, 219);
+$darkp: rgb(14, 8, 37);
+
+@mixin flexbox($flex-direction, $justify-content, $align-items) {
+  display: flex;
+  flex-direction: $flex-direction;
+  justify-content: $justify-content;
+  align-items: $align-items;
+}

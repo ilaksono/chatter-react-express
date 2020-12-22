@@ -15,7 +15,7 @@ import Icon from "@material-ui/core/Icon";
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
 import AppContext from 'AppContext';
-import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
+import styles from "useStyles/Sidebar.js";
 
 const useStyles = makeStyles(styles);
 
@@ -25,7 +25,6 @@ export default function Sidebar(props) {
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
-  const { play } = useContext(AppContext);
   const { color, logo, image, logoText, routes } = props;
   var links = (
     <List className={classes.list}>
@@ -73,7 +72,6 @@ export default function Sidebar(props) {
                 primary={props.rtlActive ? prop.rtlName : prop.name}
                 className={classNames(classes.itemText, whiteFontClasses, {
                   [classes.itemTextRTL]: props.rtlActive,
-                  "glow": (play && prop.path === '/player')
                 })}
 
                 disableTypography={true}
