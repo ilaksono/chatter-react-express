@@ -10,7 +10,6 @@ const reducer = (state, action) => {
     }
     default:
       throw new Error('invalid type');
-
   }
 };
 

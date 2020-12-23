@@ -1,0 +1,79 @@
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate-left {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.rotate {
+  animation: rotate 1s 1;
+}
+
+.rotate-left {
+  animation: rotate-left 1s 1;
+}
+
+@keyframes side-side {
+  from {
+    transform:translate3d(0%, 0 0);
+  }
+  
+  50% {
+    transform: translate3d(3%, 0,0);
+  }
+
+  to {
+    transform:translate3d(0%, 0 0);
+  }
+}
+
+.animate {
+  animation: side-side 5s infinite;
+}
+
+
+@keyframes glow {
+  from {
+    color: #84ff01;
+  }
+  12% {
+    color: #00a824a6;
+  }
+  25% {
+    color: #00e1ff;
+  }
+  37% {
+    color: rgb(1, 73, 139);
+  }
+  50% {
+    color: rgb(6, 22, 255);
+
+  }
+  62% {
+    color: rgb(126, 0, 126);
+  }
+  75% {
+    color: rgb(253, 6, 6);
+  }
+  88% {
+    color: rgb(155, 114, 0);
+
+  }
+  to {
+    color:  #3cff00;
+  }
+}
+
+.glow {
+  animation: glow 8s infinite;
+}

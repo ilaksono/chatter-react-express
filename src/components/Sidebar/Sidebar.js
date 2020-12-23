@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import classNames from "classnames";
 import PropTypes from "prop-types";
 import { NavLink } from "react-router-dom";
@@ -15,7 +15,7 @@ import Icon from "@material-ui/core/Icon";
 import AdminNavbarLinks from "components/Navbars/AdminNavbarLinks.js";
 import RTLNavbarLinks from "components/Navbars/RTLNavbarLinks.js";
 import AppContext from 'AppContext';
-import styles from "useStyles/Sidebar.js";
+import styles from "assets/jss/material-dashboard-react/components/sidebarStyle.js";
 
 const useStyles = makeStyles(styles);
 
@@ -25,6 +25,7 @@ export default function Sidebar(props) {
   function activeRoute(routeName) {
     return window.location.href.indexOf(routeName) > -1 ? true : false;
   }
+  const {play} = useContext(AppContext);
   const { color, logo, image, logoText, routes } = props;
   var links = (
     <List className={classes.list}>
@@ -54,7 +55,7 @@ export default function Sidebar(props) {
             <ListItem button className={classes.itemLink + listItemClasses}>
               {typeof prop.icon === "string" ? (
                 <Icon
-                  className={classNames(classes.itemIcon,
+                  className={classNames(classes.itemIcon, 
                     whiteFontClasses, {
                     [classes.itemIconRTL]: props.rtlActive,
                   })}
@@ -72,8 +73,9 @@ export default function Sidebar(props) {
                 primary={props.rtlActive ? prop.rtlName : prop.name}
                 className={classNames(classes.itemText, whiteFontClasses, {
                   [classes.itemTextRTL]: props.rtlActive,
+                  "glow": (play && prop.path === '/player')
                 })}
-
+                
                 disableTypography={true}
               />
             </ListItem>
