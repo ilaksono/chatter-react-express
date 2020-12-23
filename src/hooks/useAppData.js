@@ -1,12 +1,12 @@
 import { useReducer, useEffect } from 'react';
 import axios from 'axios';
 
-const SET_CHAT = 'SET_CHAT';
+const GET_CHAT = 'GET_CHAT';
 
 const reducer = (state, action) => {
   switch (action.type) {
-    case SET_CHAT: {
-      return { ...state };
+    case GET_CHAT: {
+      return { ...state, chat: action.data };
     }
     default:
       throw new Error('invalid type');
@@ -19,32 +19,34 @@ const initApp = {
 };
 
 const useAppData = () => {
-  const [app, dispatch] = useReducer();
+  const [app, dispatch] = useReducer(reducer, initApp);
   const getChat = async () => {
     const data = await axios.get('/api/chat');
-
+    dispatch({ type: GET_CHAT, data: data.data });
+};
+useEffect(() => {
+  const baseURL = process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8001';
+  const socket = new WebSocket(baseURL);
+  socket.onopen = () => {
+    socket.send('ping');
   };
-  useEffect(() => {
-    const baseURL = process.env.REACT_APP_WEBSOCKET_URL || 'ws://localhost:8001';
-    const socket = new WebSocket(baseURL);
-    socket.onopen = () => {
-      socket.send('ping');
-    };
-    socket.addEventListener('message', function (event) {
-      const update = JSON.parse(event.data);
-      if (update.type) { // check type of parsed message to filter messages
-        const { type, msg, user } = update;
-        axios.get('api/days')
-          .then(data => setChat(prev => [...prev, { msg, user, date: new Date() }]))
-          .catch(er => console.log(er));
-      }
-    });
-    return () => socket.close();
-  }, [])
+  socket.addEventListener('message', function (event) {
+    const update = JSON.parse(event.data);
+    console.log(update);
+    // if (update.type) { // check type of parsed message to filter messages
+    //   const { type, msg, user } = update;
+    //   axios.get('api/days')
+    //     .then(data => setChat(prev => [...prev, { msg, user, date: new Date() }]))
+    //     .catch(er => console.log(er));
+    // }
+  });
+  return () => socket.close();
+}, []);
 
-  return {
-    app,
-    getChat
-  }
+return {
+  app,
+  getChat
+}
 
 };
+export default useAppData;

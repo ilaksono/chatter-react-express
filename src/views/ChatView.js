@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -15,6 +15,8 @@ import {
 } from "assets/jss/material-dashboard-react.js";
 import Button from "components/CustomButtons/Button.js";
 import SendIcon from '@material-ui/icons/Send';
+import AppContext from 'AppContext';
+
 
 const styles = (theme) =>
   ({
@@ -159,7 +161,16 @@ const styles = (theme) =>
 const useStyles = makeStyles(styles);
 
 export default function ChatView() {
+
   const classes = useStyles();
+  const {
+    app,
+    getChat
+  } = useContext(AppContext);
+  useEffect(() => {
+    getChat();
+  }, [])
+
   return (
     <Card>
       <CardHeader color="primary">
@@ -177,14 +188,14 @@ export default function ChatView() {
               className: classes.margin + " " + classes.search
             }}
             inputProps={{
-              placeholder: "Search",
+              placeholder: "Message",
               inputProps: {
                 "aria-label": "Search"
               }
             }}
           />
           <Button color="white" aria-label="edit" justIcon round>
-            <SendIcon color='primary'/>
+            <SendIcon color='primary' />
           </Button>
         </div>
       </CardBody>

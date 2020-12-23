@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS public CASCADE;
+
+CREATE TABLE users (
+  id SERIAL PRIMARY KEY NOT NULL,
+  username VARCHAR(255) NOT NULL,
+  profile_pic VARCHAR(255) DEFAULT 'https://britarchschools.com/img/founder.png'
+);
+
+CREATE TABLE public (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  description VARCHAR(255) NOT NULL,
+  time TIMESTAMP NOT NULL DEFAULT Now()  
+);

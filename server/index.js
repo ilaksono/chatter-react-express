@@ -1,9 +1,22 @@
+require('dotenv');
 const app = require('express')();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const Pool = require('pg');
+const { Pool } = require('pg');
+const server = require("http").Server(app);
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ server });
 
+const db = new Pool({
+  host: 'localhost',
+  user: 'postgres',
+  port: 5433,
+  password: 123,
+  database: 'chatter'
+});
+
+const helpers = require('./helpers/dbHelpers')(db);
 
 app.use(bodyParser.json());
 app.use(cors());
@@ -26,7 +39,7 @@ function updateChat(user, msg) {
 wss.on("connection", socket => {
   socket.onmessage = event => {
     console.log(`Message Received: ${event.data}`);
-    if(event.data === 'ping')
+    if (event.data === 'ping')
       socket.send(JSON.stringify("pong"));
   };
   socket.on('close', function close() {
@@ -34,5 +47,14 @@ wss.on("connection", socket => {
   });
 });
 
+app.get('/api/chat', async (req, res) => {
+  try {
+    const data = await helpers.getPublic();
+    res.json(data);
+  } catch(er) {
+    console.log(er);
+  }
+  // res.json(data);
+})
 
 app.listen(8001, () => console.log('listening 8001'));
