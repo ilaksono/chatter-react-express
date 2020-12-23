@@ -165,12 +165,11 @@ export default function ChatView() {
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Public Chat Room</h4>
         <p className={classes.cardCategoryWhite}>
-          Say hi to everyone
+          Say hi to all
         </p>
       </CardHeader>
       <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
         <div className='chat-box'>
-
         </div>
         <div className={classes.searchWrapper}>
           <CustomInput
@@ -188,8 +187,6 @@ export default function ChatView() {
             <SendIcon color='primary'/>
           </Button>
         </div>
-
-
       </CardBody>
     </Card>
   );
