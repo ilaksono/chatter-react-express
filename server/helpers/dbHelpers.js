@@ -13,7 +13,8 @@ module.exports = (db) => {
   };
   const getPublic = () => {
     const qs = `
-    SELECT * FROM public
+    SELECT public.*, username FROM public 
+    JOIN users ON user_id = users.id
     ORDER BY time
     ;`;
     return db

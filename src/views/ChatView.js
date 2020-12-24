@@ -16,7 +16,7 @@ import {
 import Button from "components/CustomButtons/Button.js";
 import SendIcon from '@material-ui/icons/Send';
 import AppContext from 'AppContext';
-
+import MessageItem from 'components/MessageItem';
 
 const styles = (theme) =>
   ({
@@ -169,7 +169,13 @@ export default function ChatView() {
   } = useContext(AppContext);
   useEffect(() => {
     getChat();
-  }, [])
+  }, []);
+  let parsedMsgs = [];
+  if (app.chat.length) {
+    parsedMsgs = app.chat.map((msg) =>
+      <MessageItem msg={msg} />
+    );
+  }
 
   return (
     <Card>
@@ -181,6 +187,7 @@ export default function ChatView() {
       </CardHeader>
       <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
         <div className='chat-box'>
+          {parsedMsgs}
         </div>
         <div className={classes.searchWrapper}>
           <CustomInput
