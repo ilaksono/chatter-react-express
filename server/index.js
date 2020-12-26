@@ -57,4 +57,25 @@ app.get('/api/chat', async (req, res) => {
   // res.json(data);
 })
 
+app.post('/api/users', async(req, res) => {
+  try {
+    const {name} = req.body.data
+    const data = await helpers.newUser(name);
+    res.send(data);
+  } catch(er) {
+    console.log(er);
+  }
+})
+
+app.post('/api/public', async(req, res) => {
+  try {
+    const {msg, id} = req.body.data;
+    console.log(msg, id);
+    const data = await helpers.postPublic(id, msg);
+    res.send(data);
+  } catch(er) {
+    console.log(er);
+  }
+})
+
 app.listen(8001, () => console.log('listening 8001'));

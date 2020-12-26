@@ -6,6 +6,7 @@
   display: flex ;
   flex-direction: column;
   padding: 35px;
+  overflow-y: scroll;
 }
 
 .chat {
@@ -17,7 +18,6 @@
 }
 
 .messages {
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
 }
@@ -26,7 +26,6 @@
   border-radius: 20px;
   padding: 8px 15px;
   margin-top: 5px;
-  margin-bottom: 5px;
   display: inline-block;
 }
 
@@ -39,6 +38,7 @@
   background-color: #EEE;
   position: relative;
 }
+
 
 .yours .message.last:before {
   content: "";
@@ -96,4 +96,27 @@
   height: 20px;
   background: white;
   border-bottom-left-radius: 10px;
+}
+
+.msg-head-container {
+  display: flex;
+  flex-direction:row;
+  align-items: flex-end;
+}
+.head-left {
+  justify-content: flex-start;
+}
+.head-right {
+  justify-content: flex-end;
+
+}
+.msg-foot {
+  display: flex;
+  flex-direction: row;
+}
+
+@media screen and (max-width: 600px) {
+  .chat-box {
+    width: 75vw;
+  }
 }

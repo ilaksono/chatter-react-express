@@ -1,8 +1,8 @@
-const MessageItem = ({msg}) => {
+const MessageItem = ({msg, mine}) => {
 
 
   return (
-    <div className={'yours messages'}>
+    <div className={`${mine ? 'mine ': 'yours '}messages`}>
       <div className={'message last'}>
         {msg.description}
       </div>

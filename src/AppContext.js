@@ -6,12 +6,17 @@ const AppContext = React.createContext();
 export const AppProvider = ({ children }) => {
   const {
     app,
-    getChat
+    getChat,
+    handleSend,
+    createUser
   } = useAppData();
   return (
     <AppContext.Provider value={{
       app,
-      getChat
+      getChat,
+      handleSend,
+      createUser
+
     }}>
       {children}
     </AppContext.Provider>

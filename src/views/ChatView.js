@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // @material-ui/core components
 import { makeStyles } from "@material-ui/core/styles";
 // core components
@@ -17,6 +17,9 @@ import Button from "components/CustomButtons/Button.js";
 import SendIcon from '@material-ui/icons/Send';
 import AppContext from 'AppContext';
 import MessageItem from 'components/MessageItem';
+import MessageHeader from 'components/MessageItem/MessageHeader';
+import MessageFooter from 'components/MessageItem/MessageFooter';
+import Username from 'components/Username';
 
 const styles = (theme) =>
   ({
@@ -165,27 +168,44 @@ export default function ChatView() {
   const classes = useStyles();
   const {
     app,
-    getChat
+    getChat,
+    handleSend,
+    createUser
   } = useContext(AppContext);
+
+  const [ins, setIns] = useState('');
+
   useEffect(() => {
     getChat();
   }, []);
   let parsedMsgs = [];
   if (app.chat.length) {
-    parsedMsgs = app.chat.map((msg) =>
-      <MessageItem msg={msg} />
+    parsedMsgs = app.chat.map((msg) => {
+      const mine = msg.user_id === app.currentUser.id
+      return <>
+        <MessageHeader {...msg} mine={mine}/>
+        <MessageItem msg={msg} mine={mine}/>
+        <MessageFooter {...msg} mine={mine}/>
+      </>;
+    }
     );
   }
+  const handleClick = (val) => {
+    if(!ins || !app.currentUser.id) return;
+    handleSend(val);
+    setIns('');
+  };
 
   return (
     <Card>
       <CardHeader color="primary">
         <h4 className={classes.cardTitleWhite}>Public Chat Room</h4>
         <p className={classes.cardCategoryWhite}>
-          Say hi to all
+          Say hi to all{app.currentUser.username && ', ' + app.currentUser.username}
         </p>
       </CardHeader>
       <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
+        <Username createUser={createUser} />
         <div className='chat-box'>
           {parsedMsgs}
         </div>
@@ -197,11 +217,23 @@ export default function ChatView() {
             inputProps={{
               placeholder: "Message",
               inputProps: {
-                "aria-label": "Search"
+                "aria-label": "Search",
+                value: ins,
+                onChange: (e) =>
+                  setIns(e.target.value),
+                style: {
+                  color: 'black'
+                }
               }
             }}
           />
-          <Button color="white" aria-label="edit" justIcon round>
+          <Button
+            color="white"
+            aria-label="edit"
+            justIcon
+            round
+            onClick={() => handleClick(ins)}
+          >
             <SendIcon color='primary' />
           </Button>
         </div>
