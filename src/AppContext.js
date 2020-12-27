@@ -8,15 +8,18 @@ export const AppProvider = ({ children }) => {
     app,
     getChat,
     handleSend,
-    createUser
+    createUser,
+    vid,
+    setVid
   } = useAppData();
   return (
     <AppContext.Provider value={{
       app,
       getChat,
       handleSend,
-      createUser
-
+      createUser,
+      vid,
+      setVid
     }}>
       {children}
     </AppContext.Provider>

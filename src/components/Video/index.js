@@ -1,11 +1,18 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import { Button } from '@material-ui/core';
-
+import AppContext from 'AppContext';
+import TwilioVideo from './TwilioVideo';
+// import {socket} from 'hooks/useAppData';
 const Video = () => {
   const video = useRef();
-  window.AudioContext = window.AudioContext
-    || window.webkitAudioContext;
-  const context = new AudioContext();
+  const {
+    vid,
+    setVid
+  } = useContext(AppContext);
+  // window.AudioContext = window.AudioContext
+  //   || window.webkitAudioContext;
+  // const context = new AudioContext();
+
   useEffect(() => {
     navigator.mediaDevices.getUserMedia(
       {
@@ -15,11 +22,12 @@ const Video = () => {
       .then((d) => {
         console.log(d);
         video.current.srcObject = d;
-        const microphone = context.createMediaStreamSource(d);
-        const filter = context.createBiquadFilter();
-        // microphone -> filter -> destination
-        microphone.connect(filter);
-        filter.connect(context.destination);
+        setVid(prev => ({ ...prev, ready: true }));
+        // const microphone = context.createMediaStreamSource(d);
+        // const filter = context.createBiquadFilter();
+        // // microphone -> filter -> destination
+        // microphone.connect(filter);
+        // filter.connect(context.destination);
       })
       .catch(er => console.log(er));
     video.current = document
@@ -30,7 +38,7 @@ const Video = () => {
     //   console.log(video.current.srcObject);
 
     // }, 6000);
-    return () => clearTimeout(A);
+    // return () => clearTimeout(A);
   }, []);
 
   function stop(e) {
@@ -46,14 +54,17 @@ const Video = () => {
 
   return (
     <div>
-      <video width='480' height='420' controls>
+      {/* <video width='480' height='420' controls>
         <source src="/mov.mp4" type="video/mp4" />
-      </video>
-      <video autoPlay="true" id="videoElement"
+      </video> */}
+      {/* <video autoPlay="true" id="videoElement"
         width='480' height='420'
       >
       </video>
+    */}
       <Button onClick={stop} color='secondary'> Stop</Button>
+      <TwilioVideo />
+
     </div>
   );
 };

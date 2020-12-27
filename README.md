@@ -6,3 +6,6 @@
 - express
 - pg
 - postgresQL
+
+prevent npm post hooks running - viruses
+npm config set ignore-scripts true
