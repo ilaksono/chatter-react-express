@@ -12,7 +12,7 @@ const db = new Pool({
 });
 const helpers = require('./helpers/dbHelpers')(db);
 
-module.exports = () => {
+module.exports = (updateChat) => {
   app.use(bodyParser.json());
   app.use(cors());
   app.get('/api/chat', async (req, res) => {
@@ -38,8 +38,10 @@ module.exports = () => {
   app.post('/api/public', async (req, res) => {
     try {
       const { msg, id } = req.body.data;
-      console.log(msg, id);
       const data = await helpers.postPublic(id, msg);
+      const user = await helpers.getUserById(id);
+
+      updateChat(user[0].username, msg, user[0].profile_pic, id,  data[0].time)
       res.send(data);
     } catch (er) {
       console.log(er);

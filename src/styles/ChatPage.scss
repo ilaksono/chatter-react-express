@@ -1,3 +1,4 @@
+@import './helpers.scss';
 .chat-box {
   height: 400px;
   width: 450px;
@@ -102,6 +103,7 @@
   display: flex;
   flex-direction:row;
   align-items: flex-end;
+  font-family: $font-stack;
 }
 .head-left {
   justify-content: flex-start;
@@ -113,10 +115,30 @@
 .msg-foot {
   display: flex;
   flex-direction: row;
+  margin-bottom: 15px;
+}
+.username-input {
+  width: 250px;
+  max-width: 30%;
+}
+.msg-input {
+
 }
 
 @media screen and (max-width: 600px) {
   .chat-box {
-    width: 75vw;
+    width: 65vw;
+    box-shadow: 0 0 1px 0 grey;
   }
+  .username-input {
+    width: 40%;
+    max-width: 50%;
+  }
+  
+}
+@media screen and (min-width: 750px) {
+  .msg-input {
+    max-width: 60%;
+  }
+
 }

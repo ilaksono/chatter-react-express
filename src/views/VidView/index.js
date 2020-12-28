@@ -22,7 +22,7 @@ const styles = {
     marginBottom: "3px",
     textDecoration: "none"
   }
-}
+};
 const useStyles = makeStyles(styles);
 
 const VidView = () => {
@@ -30,22 +30,21 @@ const VidView = () => {
   return (
     <Card>
       <CardHeader color="primary">
-        <h4 className={classes.cardTitleWhite}>Public Chat Room</h4>
+        <h4 className={classes.cardTitleWhite}>P2P Video Call Room</h4>
         <p className={classes.cardCategoryWhite}>
-          Hi
+          Enable Video and Audio
         </p>
       </CardHeader>
-      <CardBody 
-      style={{ display: 'flex', 
-      flexDirection: 'column', 
-      justifyContent: 'flex-start', 
-      alignItems: 'center' 
-      }}
-      
+      <CardBody
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-start',
+          alignItems: 'center'
+        }}
+
       >
         <Video />
-
-      
       </CardBody>
     </Card>
   );

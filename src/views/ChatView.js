@@ -38,8 +38,21 @@ const styles = (theme) =>
         marginTop: "40px",
         "& input": {
           color: whiteColor
+        },
+        
+      },
+      [theme.breakpoints.up("sm")]: {
+        margin: "10px 15px !important",
+        float: "none !important",
+        paddingTop: "1px",
+        paddingBottom: "1px",
+        padding: "0!important",
+        width: "400px",
+        marginTop: "40px",
+        "& input": {
+          color: whiteColor
         }
-      }
+      },
     },
     linkText: {
       zIndex: "4",
@@ -122,7 +135,8 @@ const styles = (theme) =>
         width: "-webkit-fill-available",
         margin: "10px 15px 0"
       },
-      display: "inline-block"
+      display: "inline-block",
+      textAlign: 'center'
     },
     typo: {
       paddingLeft: "25%",
@@ -163,6 +177,14 @@ const styles = (theme) =>
 
 const useStyles = makeStyles(styles);
 
+const colors = [
+  '#32a8a8',
+  '#b5387b',
+  '#8b9c7e',
+  '#d6a365',
+  '#0a1638'
+]
+
 export default function ChatView() {
 
   const classes = useStyles();
@@ -170,7 +192,8 @@ export default function ChatView() {
     app,
     getChat,
     handleSend,
-    createUser
+    createUser,
+    loadUser
   } = useContext(AppContext);
 
   const [ins, setIns] = useState('');
@@ -180,18 +203,28 @@ export default function ChatView() {
   }, []);
   let parsedMsgs = [];
   if (app.chat.length) {
+    let mem = '';
+    let repeat = false;
     parsedMsgs = app.chat.map((msg) => {
-      const mine = msg.user_id === app.currentUser.id
+      if (mem === msg.user_id) repeat = true;
+      else {
+        repeat = false;
+        mem = msg.user_id;
+      };
+      const mine = msg.user_id === app.currentUser.id;
       return <>
-        <MessageHeader {...msg} mine={mine}/>
-        <MessageItem msg={msg} mine={mine}/>
-        <MessageFooter {...msg} mine={mine}/>
+        {
+          !repeat &&
+          <MessageHeader {...msg} mine={mine} color={colors[msg.user_id % 5]}/>
+        }
+        <MessageItem msg={msg} mine={mine} />
+        <MessageFooter {...msg} mine={mine} />
       </>;
     }
     );
   }
   const handleClick = (val) => {
-    if(!ins || !app.currentUser.id) return;
+    if (!ins || !app.currentUser.id) return;
     handleSend(val);
     setIns('');
   };
@@ -205,14 +238,14 @@ export default function ChatView() {
         </p>
       </CardHeader>
       <CardBody style={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'center' }}>
-        <Username createUser={createUser} />
+        <Username createUser={createUser} loadUser={loadUser}/>
         <div className='chat-box'>
           {parsedMsgs}
         </div>
         <div className={classes.searchWrapper}>
           <CustomInput
             formControlProps={{
-              className: classes.margin + " " + classes.search
+              className: classes.margin + " " + classes.search + " " + 'msg-input'
             }}
             inputProps={{
               placeholder: "Message",

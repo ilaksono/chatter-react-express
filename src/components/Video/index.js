@@ -20,7 +20,6 @@ const Video = () => {
         video: true
       })
       .then((d) => {
-        console.log(d);
         video.current.srcObject = d;
         setVid(prev => ({ ...prev, ready: true }));
         // const microphone = context.createMediaStreamSource(d);
@@ -60,9 +59,9 @@ const Video = () => {
       {/* <video autoPlay="true" id="videoElement"
         width='480' height='420'
       >
-      </video>
-    */}
-      <Button onClick={stop} color='secondary'> Stop</Button>
+      </video> */}
+   
+      {/* <Button onClick={stop} color='secondary'> Stop</Button> */}
       <TwilioVideo />
 
     </div>

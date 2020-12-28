@@ -18,19 +18,19 @@ module.exports = (db) => {
     ORDER BY time
     ;`;
     return db
-    .query(qs)
-    .then(res => res.rows);
-  }
+      .query(qs)
+      .then(res => res.rows);
+  };
   const newUser = (name) => {
     const qs = `
     INSERT INTO users (username) VALUES ($1)
     RETURNING *;`;
     const qp = [name];
     return db.query(qs, qp)
-    .then(res => res.rows)
-  }
+      .then(res => res.rows);
+  };
   const postPublic = (id, msg) => {
-    
+
     const qs = `
     INSERT INTO public (user_id, description)
     VALUES ($1, $2)
@@ -38,16 +38,21 @@ module.exports = (db) => {
     `;
     const qp = [id, msg];
     return db.query(qs, qp)
-    .then(res => res.rows);
-  }
-  const getUserByName = () => {
-
-  }
+      .then(res => res.rows);
+  };
+  const getUserById = (user_id) => {
+    const qs = `
+    SELECT * FROM users WHERE id = $1;
+    `;
+    return db.query(qs, [user_id])
+      .then(res => res.rows);
+  };
 
   return {
     addPublicMsg,
     getPublic,
     newUser,
-    postPublic
+    postPublic,
+    getUserById
   };
 }

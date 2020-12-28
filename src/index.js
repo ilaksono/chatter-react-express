@@ -8,9 +8,13 @@ import Admin from "layouts/Admin.js";
 
 import "styles/css/material-dashboard-react.css?v=1.9.0";
 import { AppProvider } from 'AppContext';
+import { CookiesProvider } from 'react-cookie';
+
+
 const hist = createBrowserHistory();
 ReactDOM.render(
   <React.StrictMode>
+    <CookiesProvider>
     <AppProvider>
       <Router history={hist}>
         <Switch>
@@ -19,6 +23,7 @@ ReactDOM.render(
         </Switch>
       </Router>
     </AppProvider>
+    </CookiesProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

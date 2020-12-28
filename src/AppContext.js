@@ -10,7 +10,8 @@ export const AppProvider = ({ children }) => {
     handleSend,
     createUser,
     vid,
-    setVid
+    setVid,
+    loadUser
   } = useAppData();
   return (
     <AppContext.Provider value={{
@@ -19,7 +20,8 @@ export const AppProvider = ({ children }) => {
       handleSend,
       createUser,
       vid,
-      setVid
+      setVid,
+      loadUser
     }}>
       {children}
     </AppContext.Provider>

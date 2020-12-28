@@ -1,7 +1,7 @@
 require('dotenv').config();
 // const app = require('express')();
 
-const app = require('./application')();
+const app = require('./application')(updateChat);
 
 const server = require("http").Server(app);
 const WebSocket = require("ws");
@@ -13,40 +13,51 @@ var VideoGrant = AccessToken.VideoGrant;
 var ACCOUNT_SID = process.env.NODE_TWILIO_SID;
 var API_KEY_SID = process.env.NODE_VIDEO_KEY;
 var API_KEY_SECRET = process.env.NODE_VIDEO_SECRET;
-
 // Create an Access Token
-var accessToken = new AccessToken(
-  ACCOUNT_SID,
-  API_KEY_SID,
-  API_KEY_SECRET
-);
+let cntr = 0;
 let i = 1;
+let roomNum = 0;
+const makeNewRoom = () => {
+  roomNum++;
+  cntr = 0;
+};
+
 // Set the Identity of this token
 
 // Serialize the token as a JWT
 
 app.get('/token', (req, res) => {
-  accessToken.identity = `User ${i++}`;
-
+  const accessToken = new AccessToken(
+    ACCOUNT_SID,
+    API_KEY_SID,
+    API_KEY_SECRET
+  );
+  const id = `User ${i++}`;
+  accessToken.identity = id;
   // Grant access to Video
-  var grant = new VideoGrant();
-  grant.room = 'cool room';
+  if (cntr >= 2)
+    makeNewRoom();
+  const grant = new VideoGrant({ room: `Room #${roomNum}` });
+  // grant.room = 'cool room';
   accessToken.addGrant(grant);
-  var jwt = accessToken.toJwt();
-  console.log(jwt);
-  res.send(jwt);
+  const jwt = accessToken.toJwt();
+  // console.log(jwt);
+  res.send({ jwt, cntr: cntr++ , rm:`Room #${roomNum}`});
 
-})
+});
 
 
-function updateChat(user, msg) {
+function updateChat(username, msg, profile_pic, id, date ) {
   wss.clients.forEach(function eachClient(client) {
     if (client.readyState === WebSocket.OPEN) {
       client.send(
         JSON.stringify({
           type: "PUBLIC_CHAT",
           msg,
-          user
+          username,
+          profile_pic,
+          id,
+          date
         })
       );
     }
@@ -66,19 +77,17 @@ function updateVideo(data, ws) {
 
 wss.on("connection", socket => {
   socket.onmessage = event => {
-    console.log(`Message Received: ${event.data}`);
-    
     if (event.data === 'ping')
       socket.send(JSON.stringify("pong"));
-    if(event.data.type === 'vid') {
+    if (event.data.type === 'vid') {
       updateVideo(JSON.parse(event.data.data, socket));
-    } 
+    }
     // else if(event.data.type === ) 
   };
   socket.on('close', function close() {
-    console.log('it died');
+    console.log('Connection closed');
   });
 });
 
 
-app.listen(8001, () => console.log('listening 8001'));
+server.listen(8001, () => console.log('listening 8001'));
