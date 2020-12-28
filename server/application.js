@@ -4,11 +4,11 @@ const cors = require('cors');
 const { Pool } = require('pg');
 
 const db = new Pool({
-  host: 'localhost',
-  user: 'postgres',
-  port: 5433,
-  password: 123,
-  database: 'chatter'
+  host: process.env.NODE_DB_HOST,
+  user: process.env.NODE_DB_USER,
+  port: process.env.NODE_DB_PORT,
+  password: process.env.NODE_DB_PASS,
+  database: process.env.NODE_DB_NAME
 });
 const helpers = require('./helpers/dbHelpers')(db);
 

@@ -1,6 +1,6 @@
 
 
-const MessageHeader = ({ username, mine, color }) => {
+const MessageHeader = ({ username, mine, color, profile_pic }) => {
 
   return (
     <div
@@ -11,6 +11,7 @@ const MessageHeader = ({ username, mine, color }) => {
         color: color
       }}
     >
+      <img src={profile_pic} style={{width: 36, height: 36, borderRadius: '50%', marginRight: 8}}alt=''/>
       <h7>{username}</h7>
     </div>
   );
