@@ -10,5 +10,6 @@
 
   # Default build command.
   command = "CI= npm run build"
+[build.environment]  
   REACT_APP_API_BASE_URL = "https://chatter-api-i.herokuapp.com/"
   REACT_APP_WEBSOCKET_URL = "wss://chatter-api-i.herokuapp.com/"
