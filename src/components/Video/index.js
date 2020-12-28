@@ -13,32 +13,32 @@ const Video = () => {
   //   || window.webkitAudioContext;
   // const context = new AudioContext();
 
-  useEffect(() => {
-    navigator.mediaDevices.getUserMedia(
-      {
-        audio: true,
-        video: true
-      })
-      .then((d) => {
-        video.current.srcObject = d;
-        setVid(prev => ({ ...prev, ready: true }));
-        // const microphone = context.createMediaStreamSource(d);
-        // const filter = context.createBiquadFilter();
-        // // microphone -> filter -> destination
-        // microphone.connect(filter);
-        // filter.connect(context.destination);
-      })
-      .catch(er => console.log(er));
-    video.current = document
-      .querySelector("#videoElement");
+  // useEffect(() => {
+  //   navigator.mediaDevices.getUserMedia(
+  //     {
+  //       audio: true,
+  //       video: true
+  //     })
+  //     .then((d) => {
+  //       video.current.srcObject = d;
+  //       setVid(prev => ({ ...prev, ready: true }));
+  //       // const microphone = context.createMediaStreamSource(d);
+  //       // const filter = context.createBiquadFilter();
+  //       // // microphone -> filter -> destination
+  //       // microphone.connect(filter);
+  //       // filter.connect(context.destination);
+  //     })
+  //     .catch(er => console.log(er));
+  //   video.current = document
+  //     .querySelector("#videoElement");
 
-    // const A = setInterval(() => {
-    //   console.log(video.current.src);
-    //   console.log(video.current.srcObject);
+  //   // const A = setInterval(() => {
+  //   //   console.log(video.current.src);
+  //   //   console.log(video.current.srcObject);
 
-    // }, 6000);
-    // return () => clearTimeout(A);
-  }, []);
+  //   // }, 6000);
+  //   // return () => clearTimeout(A);
+  // }, []);
 
   function stop(e) {
     var stream = video.current.srcObject;

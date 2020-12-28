@@ -6,13 +6,18 @@ const { connect, createLocalVideoTrack } = require('twilio-video');
 
 const TwilioVideo = () => {
   const ref = useRef();
+  const prev = useRef();
+  const self = useRef();
   const removePreview = () => {
     const localMediaContainer = document.getElementById('local-media').children[0];
     if (localMediaContainer)
       localMediaContainer.remove();
+    // console.log(prev.current)
+    prev.current.stop();
   };
   const getPreview = () => {
     createLocalVideoTrack().then(track => {
+      prev.current = track;
       const localMediaContainer = document.getElementById('local-media');
       localMediaContainer.appendChild(track.attach());
     });
@@ -23,6 +28,7 @@ const TwilioVideo = () => {
       .then(room => {
         // if (data.data.cntr === 1) {
         createLocalVideoTrack({ width: 480 }).then(track => {
+          self.current = track;
           const localMediaContainer = document.getElementById('remote-media-div');
           localMediaContainer.appendChild(track.attach());
         });
@@ -90,11 +96,16 @@ const TwilioVideo = () => {
 
   };
   const disconnect = () => {
+    if (self.current)
+      self.current.stop();
     if (ref.current)
       ref.current.disconnect();
     const containers = document.getElementById('remote-media-div').children;
-    for (const child of containers)
-      child.remove();
+    while (containers.length) {
+      for (const child of containers)
+        child.remove();
+    }
+
   };
   return (
     <div>
