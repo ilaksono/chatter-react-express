@@ -7,7 +7,7 @@ import CardHeader from "components/Card/CardHeader.js";
 import CardBody from "components/Card/CardBody.js";
 import 'styles/ChatPage.scss';
 import CustomInput from "components/CustomInput/CustomInput.js";
-
+import 'styles/LoadingSpinner.scss';
 import Button from "components/CustomButtons/Button.js";
 import SendIcon from '@material-ui/icons/Send';
 import AppContext from 'AppContext';
@@ -97,7 +97,8 @@ export default function ChatView() {
           {err.msg}
         </div>}
         <div className='chat-box'>
-          {parsedMsgs}
+          
+          {app.chat.length > 0 ? parsedMsgs : <div class="lds-ring"><div></div><div></div><div></div><div></div></div>}
         </div>
         <div className={classes.searchWrapper}>
           <CustomInput
