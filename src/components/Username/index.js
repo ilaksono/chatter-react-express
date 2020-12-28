@@ -21,15 +21,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Username = ({ createUser, loadUser }) => {
+const Username = ({ createUser, loadUser, setErr }) => {
   const classes = useStyles();
   const [name, setName] = useState('');
   const [cookies, setCookie, removeCookie] = useCookies(['name']);
   const handleSubmit = async () => {
-    const { id, profile_pic } = await createUser(name);
-    setCookie('name', name, { path: '/' });
-    setCookie('profile_pic', profile_pic, { path: '/' });
-    setCookie('id', id, { path: '/' });
+    setErr('');
+    if(name) {
+      const { id, profile_pic } = await createUser(name);
+      setCookie('name', name, { path: '/' });
+      setCookie('profile_pic', profile_pic, { path: '/' });
+      setCookie('id', id, { path: '/' });
+
+    } else return setErr({type:'top', msg:'Name shouldn\'t be blank'});
   };
   useEffect(() => {
     if (cookies.name && cookies.profile_pic && cookies.id)
@@ -40,7 +44,10 @@ const Username = ({ createUser, loadUser }) => {
       <TextField
         value={name}
         className='username-input'
-        onChange={event => setName(event.target.value)}
+        onChange={event => {
+          setErr({type:'', msg:''})
+          setName(event.target.value)
+        }}
         id="standard-basic" label="Username" />
       <Button type='submit' 
       style={{
